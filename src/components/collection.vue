@@ -1,0 +1,125 @@
+<template>
+	<div class="collection">
+		<div class="dish-header">
+			<i class="el-icon-arrow-left" @click="back"></i>
+			我的收藏
+		</div>
+		<div class="dish-container">
+			<div class="dish-container-list" v-for="(item,index) in foodData" :key="index" @click="show(item.id)">
+				<div class="dish-container-left">
+					<img :src="item.pic">
+				</div>
+				<div class="dish-container-right">
+					<div class="dish-name">
+						{{item.name}}
+					</div>
+					<div class="dish-tag">
+						{{item.tag}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<Cook v-if="isCookshow" :cookId="cookId" @back="cookBack"></Cook>
+	</div>
+</template>
+
+<script type="text/javascript">
+import { getCollection } from "@/assets/js/api.js"
+import { mapGetters } from "vuex"
+import Cook from "@/components/cook"
+	export default{
+		props:{
+			Cook
+		},
+		data(){
+			return{
+				foodData:"",
+				isCookshow:false,
+				cookId:'',
+			}
+		},
+		computed:{
+			...mapGetters([
+				"phone",
+				"isLogined"
+				])
+		},
+		methods:{
+			_getCollection(){
+				const data = {
+					phone:this.phone
+				}
+				console.log(1)
+				getCollection(data).then((data)=>{
+					console.log(data)
+					this.foodData = data.data.userData
+				})
+			},
+			back(){
+				history.go(-1)
+			},
+			show(id){
+				this.cookId=id;
+				this.is_cookshow = true
+			},
+			cookBack(){
+				this.is_cookshow = false;
+			}
+		},	
+		created(){
+			if(this.isLogined){
+				this._getCollection()
+			}
+		}
+	}
+</script>
+
+<style type="text/css">
+	.dish-header{
+		width: 100%;
+		position: fixed;
+		top:0;
+		text-align: center;
+		height: 3rem;
+		font-size: 1rem;
+		line-height: 3rem;
+		background: #EEE;
+		border-bottom: 1px solid #DDD
+	}
+	.dish-header i{
+		position: absolute;
+		left: 1rem;
+		font-size: 2rem;
+		margin-top: 0.5rem;
+	}
+	.dish-container{
+		margin-top: 4rem;
+	}
+	.dish-container-list{
+		display: flex;
+		margin-top: 1rem;
+	}
+	.dish-container-left{
+		width: 7rem;
+		height: 5rem;
+		margin-left: 1rem;
+	}
+	.dish-container-left img{
+		width: 100%;
+		height:100%;
+	}
+	.dish-container-right{
+		margin-left: 2rem;
+		width: 10rem;
+		overflow: hidden;
+	    overflow: hidden;
+	    -webkit-line-clamp: 2;
+	    -webkit-box-orient: vertical;
+	    word-break: break-all;
+	}
+	.dish-tag{
+		margin-top: 1.15rem;
+		color:#555;
+		font-size: 0.5rem;
+	}
+</style>

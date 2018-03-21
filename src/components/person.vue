@@ -5,12 +5,15 @@
 			个人中心
 		</div>
 		<div class="person-content">
-			<div class="person-img">
-				<img src="/static/images/zjl.jpg">
+			<div class="person-img" @click="changeAvater">
+				<img src="/static/images/zjl.jpg" ref="img">
 			</div>
 			<div class="person-name">
-				周杰伦
+				{{phone}}
 			</div>
+		</div>
+		<div class="change-avater">
+			<input type="file" name="avater" ref="input">
 		</div>
 		<div class="person-information">
 			<div class="my-data">
@@ -31,8 +34,15 @@
 </template>
 
 <script type="text/javascript">
-import { mapMutations } from "vuex"
+import axios from "axios"
+import { mapMutations,mapGetters } from "vuex"
 	export default{
+		computed:{
+			...mapGetters([
+				"phone",
+				"isLogined"
+				])
+		},
 			methods:{
 				back(){
 					history.go(-1)
@@ -41,8 +51,38 @@ import { mapMutations } from "vuex"
 					this.setLogin(false);
 					this.$router.push("/")
 				},
+				changeAvater(){
+					this.$refs.input.click();
+					this.$refs.input.onchange = ()=>{
+						let file = this.$refs.input.files[0];
+					    let formData = new FormData();
+					    formData.append("avatar", file);
+					    formData.append("phone",this.phone)
+					    axios.post("/users/avatar",formData).then((data)=>{
+					    	if(data.data.status){
+					    		this.$refs.img.src=data.data.filePath
+					    	}
+					    })
+					}
+				},
 				...mapMutations({
 					setLogin:"SET_IS_LOGINED"
+				})
+			},
+			created(){
+				if(!this.isLogined){
+					this.$router.push("/login")
+				}
+			},
+			mounted(){
+				axios.get("/users/userHead",{
+					params:{
+						phone:this.phone
+					}
+				}).then((data)=>{
+					if(data.data.status){
+						this.$refs.img.src=data.data.pic
+					}
 				})
 			}
 	}
@@ -115,5 +155,8 @@ import { mapMutations } from "vuex"
 		margin-top: 2rem;
 		width: 16rem;
 		margin-left: 2rem;
+	}
+	.change-avater{
+		display: none;
 	}
 </style>

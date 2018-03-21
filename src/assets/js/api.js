@@ -35,4 +35,13 @@ var getCook= (data)=>{
 			return Promise.resolve(data)
 	})
 }
-export {getFood,getDish,getAllfood,getCook}
+
+var getCollection = (data)=>{
+	const url = "/users/collection";
+	return axios.get(url,{
+			params:data
+		}).then((data)=>{
+			return Promise.resolve(data)
+	})
+}
+export {getFood,getDish,getAllfood,getCook,getCollection }

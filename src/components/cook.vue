@@ -102,7 +102,10 @@ import axios from "axios"
 					params:data
 				}).then((data)=>{
 					if(data.data.status){
-						this.open2(data.data.msg)
+						this.open2(data.data.msg);
+						this.$refs.btn.setAttribute("disabled",true);
+						this.$refs.btn.style.background="#909399";
+						this.iscollected="已收藏"
 					}else{
 						this.open3(data.data.msg)
 					}
@@ -232,7 +235,7 @@ import axios from "axios"
 		opacity:0
 	}
 	.appear-enter-active,.appear-leave-active{
-		transition: all 1s;
+		transition: all .4s;
 	}
 
 </style>
