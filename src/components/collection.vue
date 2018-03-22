@@ -28,7 +28,7 @@ import { getCollection } from "@/assets/js/api.js"
 import { mapGetters } from "vuex"
 import Cook from "@/components/cook"
 	export default{
-		props:{
+		components:{
 			Cook
 		},
 		data(){
@@ -60,13 +60,13 @@ import Cook from "@/components/cook"
 			},
 			show(id){
 				this.cookId=id;
-				this.is_cookshow = true
+				this.isCookshow = true
 			},
 			cookBack(){
-				this.is_cookshow = false;
+				this.isCookshow = false;
 			}
 		},	
-		created(){
+		activated(){
 			if(this.isLogined){
 				this._getCollection()
 			}

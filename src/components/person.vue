@@ -20,10 +20,10 @@
 				<span>个人资料</span>
 				<i class="el-icon-edit"></i>
 			</div>
-			<div class="my-data">
+			<router-link tag="div" to="/collection" class="my-data">
 				<span>我的收藏</span>
 				<i class="el-icon-d-arrow-right"></i>
-			</div>
+			</router-link>
 			<div class="my-data">
 				<span>我的发帖</span>
 				<i class="el-icon-d-arrow-right"></i>
@@ -74,7 +74,7 @@ import { mapMutations,mapGetters } from "vuex"
 					this.$router.push("/login")
 				}
 			},
-			mounted(){
+			activated(){
 				axios.get("/users/userHead",{
 					params:{
 						phone:this.phone

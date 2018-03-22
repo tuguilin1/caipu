@@ -96,8 +96,8 @@ import axios from "axios"
 					return false
 				}
 				let phone = this.phone
-				let {id,pic,tag} = this.cookFood;
-				let data = {id,pic,tag,phone};
+				let {id,pic,tag,name} = this.cookFood;
+				let data = {id,pic,tag,name,phone};
 				axios.get("/users/collect",{
 					params:data
 				}).then((data)=>{

@@ -28,7 +28,7 @@
       			历史记录
       		</div>
       		<div class="hot-content">
-      			<el-tag closable :disable-transitions="false" v-for="(item,key) in searchHistory" :key="key">{{item.name}}</el-tag>
+      			<el-tag closable :disable-transitions="false" v-for="(item,key) in searchHistory" :key="key" @close="handleClose(key)">{{item.name}}</el-tag>
       		</div>
       </div>
 	</div>
@@ -88,7 +88,19 @@ import axios from "axios"
 	         			let foodName = source.innerHTML.match(reg).join("");
 	         			this.$router.push(`/dish/${foodName}`)
 	         		}
-			}
+			},
+			handleClose(key) {
+				console.log(key)
+     		   
+     		   const data = {
+     		   	name:this.searchHistory[key].name,
+     		   	phone:this.phone
+     		   }
+     		   this.searchHistory.splice(key, 1);
+     		   axios.get("/users/remove-history",{
+     		   	params:data
+     		   })
+     	    },
 		},
 		watch:{
 			isSearchshow:function(_isSearchshow){

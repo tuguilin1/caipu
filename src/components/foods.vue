@@ -1,5 +1,5 @@
 <template>
-	<div class="food" @click="foodSearch">
+	<div class="food" @click="foodSearch" ref="food">
 		<el-tag    v-for="(item,index) in foodList" :key="index">{{item.name}}</el-tag> 
 	</div>
 </template>
@@ -32,6 +32,9 @@ import { getFood } from "@/assets/js/api.js"
 				getFood(data).then((data)=>{
 					if(data.data.msg === "查询成功"){
 						this.foodList = data.data.result.result.list;
+						setTimeout(()=>{
+							this.$refs.food.style.display = "block"
+						},100)
 					}
 					else{
 						this.foodList = [{"name":"没有信息"}]
@@ -60,5 +63,7 @@ import { getFood } from "@/assets/js/api.js"
 </script>
 
 <style type="text/css">
-
+.food{
+	display: none;
+}
 </style>
