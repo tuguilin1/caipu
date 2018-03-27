@@ -7,6 +7,7 @@ import Dish from "@/components/dish"
 import allFood from "@/components/all_food"
 import Person from "@/components/person"
 import Collection from "@/components/collection"
+import News from "@/components/news"
 Vue.use(Router)
 
 export default new Router({
@@ -38,6 +39,10 @@ export default new Router({
 	  {
 	  	path:"/collection",
 	  	component:Collection
+	  },
+	  {
+	  	path:"/news",
+	  	component:News
 	  }
   ]
 })

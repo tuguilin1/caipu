@@ -7,6 +7,8 @@ import "./assets/css/iconfont.css"
 import 'element-ui/lib/theme-chalk/index.css'
 import VueLazyLoad from 'vue-lazyload'
 import store from './store'
+import VueSocketio from 'vue-socket.io';
+Vue.use(VueSocketio, 'http://localhost:3000');
 Vue.use(VueLazyLoad,{
 	loading:'./static/lazy.jpg'
 })
