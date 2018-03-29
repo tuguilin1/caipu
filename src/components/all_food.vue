@@ -1,5 +1,5 @@
 <template>
-	<div class="all-food" v-loading="loading">
+	<div class="all-food">
 		<div class="all-food-header">
 			<i class="el-icon-arrow-left" @click="back"></i>
 			全部分类
@@ -19,11 +19,11 @@
 
 <script type="text/javascript">
 import {getAllfood} from "@/assets/js/api"
+import { Indicator } from 'mint-ui';
 	export default{
 		data(){
 			return{
 				allFood:"",
-				loading:true,
 			}
 		},
 		methods:{
@@ -33,10 +33,10 @@ import {getAllfood} from "@/assets/js/api"
 				}).then((data)=>{
 					if(data.data.msg=="查询成功"){
 						this.allFood=data.data.result.result;
-						setTimeout(()=>{
-							this.loading = false;
-						},500)
 					}
+					setTimeout(()=>{
+						Indicator.close()
+					},300)
 				})
 			},
 			back(){
@@ -47,7 +47,7 @@ import {getAllfood} from "@/assets/js/api"
 			}
 		},
 		mounted(){
-			this.loading = true;
+			Indicator.open('加载中...');
 			this._getAllfood()
 		}
 	}

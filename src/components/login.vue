@@ -21,6 +21,7 @@
 
 <script type="text/javascript">
 import axios from "axios"
+import { Toast } from 'mint-ui';
 import { mapMutations } from 'vuex'
 	export default{
 		data() {
@@ -68,7 +69,10 @@ import { mapMutations } from 'vuex'
 			            axios.post("/users/login",data).then((data)=>{
 			            	console.log(data);
 			            	if(data.data.status){
-			            		this.open2(data.data.msg);
+			            		let instance = Toast('登陆成功');
+								setTimeout(() => {
+								  instance.close();
+								}, 1000);
 			            		let pass = this.ruleForm2.pass;
 			            		let phone = this.ruleForm2.phone
 			            		this.setUserpass(pass);
@@ -76,10 +80,13 @@ import { mapMutations } from 'vuex'
 			            		setTimeout(()=>{
 			            			this.setLogin(true);
 			            			this.$router.push("/")
-			            		},2000)
+			            		},1000)
 			            	}
 			     			else{
-			     				this.open3(data.data.msg)
+			     				let instance = Toast('账号密码错误');
+								setTimeout(() => {
+								  instance.close();
+								}, 1000);
 			     			}
 			            })	
 			        } else {
@@ -87,21 +94,6 @@ import { mapMutations } from 'vuex'
 			            return false;
 			          }
 			    });
-		    },
-		    open2(msg) {
-		        this.$message({
-		          message: msg,
-		          type: 'success',
-		          duration:1000,
-		        });
-		    },
-
-		    open3(msg) {
-		        this.$message({
-		          message: msg,
-		          type: 'warning',
-		          duration:1000,
-		        });
 		    },
 		    ...mapMutations({
 		    	setLogin:"SET_IS_LOGINED",

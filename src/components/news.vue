@@ -3,30 +3,60 @@
 		<div class="news-header">
 			
 			消息
-			<i class="el-icon-plus"></i>
+			<i class="el-icon-plus" @click="showAppend"></i>
+			<div class="append" v-show="isAppendshow">
+				<div @click="showSearch">添加好友</div>
+				<div>添加群</div>
+				<div>新建群</div>
+			</div>
 		</div>
+		<new-friend v-if="isSearchshow"></new-friend>
 	</div>
 </template>
 
 <script type="text/javascript">
+import newFriend from "@/components/newFriend"
+import { mapGetters } from "vuex"
 export default{
+  components:{
+	  newFriend
+  },
   data(){
       return{
-          id:''
+          id:'',
+          isAppendshow:false,
+          isSearchshow:false
       }
+  },
+  computed:{
+  	...mapGetters([
+  		"phone",
+  		"isLogined"
+  		])
   },
   sockets:{
     connect: function(){
       console.log("连接成功")
     },
-    event: function(data){
+    message:function(data){
       	console.log(data)
     }
   },
   methods: {
+  	showAppend:function(){
+    	if(this.isAppendshow){
+    		this.isAppendshow = false
+    	}
+    	else{
+    		this.isAppendshow = true
+    	}
+    },
+    showSearch:function(){
+    		this.isSearchshow = true
+    }
   },
   mounted(){
-  	this.$socket.emit("event01")
+  	this.$socket.emit("newuser",{phone:15167120242})
   }
 }
 </script>
@@ -48,5 +78,13 @@ export default{
 		right: 1rem;
 		font-size: 1.5rem;
 		margin-top: 0.75rem;
+	}
+	.append{
+		width: 5rem;
+		height: 9rem;
+		background-color: #DDD;
+		position: relative;
+		left: 15rem;
+		top:-0.5rem;
 	}
 </style>

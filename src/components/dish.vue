@@ -1,5 +1,5 @@
 <template>
-	<div class="dish" v-loading="loading">
+	<div class="dish">
 		<div class="dish-header">
 			<i class="el-icon-arrow-left" @click="back"></i>
 			{{foodName}}
@@ -26,6 +26,7 @@
 <script type="text/javascript">
 import {getDish,getFood} from "@/assets/js/api.js"
 import Cook from "@/components/cook"
+import { Indicator } from 'mint-ui';
 	export default{
 		components:{
 			Cook
@@ -36,7 +37,6 @@ import Cook from "@/components/cook"
 				foodData:"",
 				is_cookshow:false,
 				cookId:'',
-				loading:true,
 			}
 		},
 		methods:{
@@ -53,10 +53,10 @@ import Cook from "@/components/cook"
 					getDish(data).then((data)=>{
 						if(data.data.msg === "查询成功"){
 							this.foodData = data.data.result.result.list;
-							setTimeout(()=>{
-								this.loading = false;
-							},500)
 						}
+						setTimeout(()=>{
+							Indicator.close()
+						},300)
 					})
 				}
 				else{
@@ -71,10 +71,10 @@ import Cook from "@/components/cook"
 					getFood(data).then((data)=>{
 						if(data.data.msg === "查询成功"){
 							this.foodData = data.data.result.result.list;
-							setTimeout(()=>{
-								this.loading = false;
-							},500)
 						}
+						setTimeout(()=>{
+							Indicator.close()
+						},300)
 					})
 				}
 				// const data = {
@@ -113,7 +113,7 @@ import Cook from "@/components/cook"
 			}
 		},
 		activated(){
-			this.loading=true
+			Indicator.open('加载中...');
 			this.is_cookshow=false
 			this._getFood()
 		}
