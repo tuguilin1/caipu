@@ -1,7 +1,8 @@
 <template>
+	<transition name="friend">	
 	<div class="new-friend">
 		<header>
-	        <i class="el-icon-arrow-down"></i>
+	        <i class="el-icon-arrow-down" @click="stopSearch"></i>
 	        <input ref="input"  placeholder="输入对方手机号或昵称"/>
 	        <i class="el-icon-search" @click="inputSearch"></i>
 	    </header>
@@ -12,12 +13,13 @@
 	    			{{item.username}}
 	    		</div>
 	    		<div class="operation">
-	    			<el-button type="info" plain @click="sendMessage">发消息</el-button>
+	    			<el-button type="info" plain @click="sendMessage(item)">发消息</el-button>
 	    		</div>
 	    	</div>
 	    </div>
-	    <Message v-if="isMessageshow"></Message>
+	    <Message v-if="isMessageshow" @stopMessage="sendMessage" :toUser="toUser"></Message>
 	</div>
+	</transition>
 </template>
 
 <script type="text/javascript">
@@ -30,7 +32,8 @@ import Message from "@/components/message"
 		data(){
 			return {
 				users:'',
-				isMessageshow:false
+				isMessageshow:false,
+				toUser:""
 			}
 		},
 		methods:{
@@ -59,9 +62,17 @@ import Message from "@/components/message"
 					})
 				}	
 			},
-			sendMessage(){
-				this.isMessageshow = true
-			}
+			sendMessage(item){
+				if(this.isMessageshow){
+					this.isMessageshow = false
+				}else{
+					this.toUser = item.phonenumber
+					this.isMessageshow = true
+				}
+			},
+			stopSearch(){
+				this.$emit("stopSearch")
+			},
 		},
 
 	}
@@ -137,5 +148,20 @@ import Message from "@/components/message"
 		text-align: center;
 		margin-top: 1rem;
 		padding: 0 0;
+	}
+	.friend-enter{
+		top:20rem;
+		opacity: 0;
+	}
+	.friend-enter-to{
+		top:0;
+		opacity: 1;
+	}
+	.friend-enter-active,.friend-leave-active{
+		transition: all .5s;
+	}
+	.friend-leave-to{
+		opacity: 0;
+		top:30rem;
 	}
 </style>

@@ -28,6 +28,10 @@
 				<span>我的发帖</span>
 				<i class="el-icon-d-arrow-right"></i>
 			</div>
+			<router-link to="/news" tag="div" class="my-data">
+				<span>我的消息</span>
+				<i class="el-icon-d-arrow-right"></i>
+			</router-link>
 		</div>
 		<el-button type="info" plain @click="quit">退出登录</el-button>
 	</div>

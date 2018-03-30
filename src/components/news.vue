@@ -1,7 +1,7 @@
 <template>
 	<div class="news">
 		<div class="news-header">
-			
+			<i class="el-icon-arrow-left" @click="back"></i>
 			消息
 			<i class="el-icon-plus" @click="showAppend"></i>
 			<div class="append" v-show="isAppendshow">
@@ -10,7 +10,7 @@
 				<div>新建群</div>
 			</div>
 		</div>
-		<new-friend v-if="isSearchshow"></new-friend>
+		<new-friend v-if="isSearchshow" @stopSearch="showSearch"></new-friend>
 	</div>
 </template>
 
@@ -52,11 +52,17 @@ export default{
     	}
     },
     showSearch:function(){
+    	if(this.isSearchshow){
+    		this.isSearchshow = false
+    	}
+    	else{
     		this.isSearchshow = true
+    		this.isAppendshow = false
+    	}
+    },
+    back(){
+    	history.go(-1)
     }
-  },
-  mounted(){
-  	this.$socket.emit("newuser",{phone:15167120242})
   }
 }
 </script>
@@ -73,9 +79,15 @@ export default{
 		background: #EEE;
 		border-bottom: 1px solid #DDD
 	}
-	.news-header i{
+	.news-header .el-icon-plus{
 		position: absolute;
 		right: 1rem;
+		font-size: 1.5rem;
+		margin-top: 0.75rem;
+	}
+	.news-header .el-icon-arrow-left{
+		position: absolute;
+		left: 1rem;
 		font-size: 1.5rem;
 		margin-top: 0.75rem;
 	}
