@@ -3,15 +3,15 @@
 	<div class="message">
 		<div class="message-head">
 			<i class="el-icon-arrow-left" @click="back"></i>
-			周杰伦
+			{{toUser}}
 		</div>
 		<div class="message-bottom">
 			<div class="input">
-				<input type="search" name="">
+				<input type="search" name="" ref="_input">
 			</div>
-			<div class="send">发送</div>
+			<div class="send" @click="send">发送</div>
 		</div>
-		<div class="content">
+		<div class="content" ref="content">
 			<div class="from">
 				<div class="from-img">
 					<img :src="fromImg">
@@ -40,7 +40,8 @@ import axios from "axios"
 		data(){
 			return{
 				toImg:"",
-				fromImg:""
+				fromImg:"",
+				num:0
 			}
 		},
 		props:{
@@ -75,15 +76,29 @@ import axios from "axios"
 						return false;
 					}else{
 						if(data[0].data.list.phonenumber == this.phone){
-							this.fromImg = data[0].data.list[0].avatar;
-							this.toImg = data[1].data.list[0].avatar
-						}else{
 							this.fromImg = data[1].data.list[0].avatar;
-							this.toImg  = data[0].data.list[0].avatar
+							this.toImg = data[0].data.list[0].avatar
+						}else{
+							this.fromImg = data[0].data.list[0].avatar;
+							this.toImg  = data[1].data.list[0].avatar
 						}
 						console.log(this.fromImg,this.toImg)
 					}
 				})
+			},
+			send(){
+				let date = new Date();
+				let _date = `${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`
+				let value = this.$refs._input.value
+				if(!value){
+					return false;
+				}else{
+					this.$socket.emit("chat",{from:this.phone,to:this.toUser,content:{
+						num:this.num++,
+						text:value
+					},time:_date})
+					this.$refs._input.value=""
+				}
 			}
 		},
 		mounted(){
