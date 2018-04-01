@@ -93,7 +93,7 @@ import axios from "axios"
 				if(!value){
 					return false;
 				}else{
-					this.$socket.emit("chat",{from:this.phone,to:this.toUser,content:{
+					this.$socket.emit("chat1",{from:this.phone,to:this.toUser,content:{
 						num:this.num++,
 						text:value
 					},time:_date})
