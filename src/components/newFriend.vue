@@ -17,7 +17,7 @@
 	    		</div>
 	    	</div>
 	    </div>
-	    <Message v-if="isMessageshow" @stopMessage="sendMessage" :toUser="toUser"></Message>
+	    <Message v-if="isMessageshow" @stopMessage="sendMessage" :toUser="toUser" :message="{}"></Message>
 	</div>
 	</transition>
 </template>

@@ -11,37 +11,42 @@
 			</div>
 		</div>
 		<div class="centent">
-			<div class="news-content" v-for="(item,index) in list" :key="index">
+			<div class="news-content" v-for="(item,index) in list" :key="index" @click="showMessage(item)">
 		    	<div class="user-avatar"><img :src="item.avatar" alt=""></div>
 		    	<div class="user-information">
 		    		<div class="user-name">
 		    			{{item.username}}
 		    		</div>
-					<mt-badge size="small" type="error">{{exist[item.phonenumber]}}</mt-badge>
+					<mt-badge size="small" type="error">{{  exist[item.phonenumber] }}</mt-badge>
 		    	</div>
 		    </div>
 		</div>
-
+		<Message v-if="isMessageshow" @stopMessage="showMessage" :toUser="chattingUser" :content="content"></Message>
 		<new-friend v-if="isSearchshow" @stopSearch="showSearch"></new-friend>
 	</div>
 </template>
 
 <script type="text/javascript">
 import newFriend from "@/components/newFriend"
+import Message from "@/components/message"
 import { mapGetters } from "vuex"
 import axios from "axios"
 import { Badge } from 'mint-ui'
 export default{
   components:{
-	  newFriend
+	  newFriend,
+	  Message
   },
   data(){
       return{
           id:'',
           isAppendshow:false,
           isSearchshow:false,
+          isMessageshow:false,
           list:[],
-          exist:{}
+          exist:{},
+          chattingUser:"",
+          content:{}
       }
   },
   computed:{
@@ -55,16 +60,21 @@ export default{
       console.log("连接成功")
     },
     nowMessage:function(data){
-      	console.log(data);
-	    let code="";
-		data.from == this.phone? code=data.to:code=data.from;
-      	this.getUser(code)
+	    let code="",bool=true;
+		data.from == this.phone? (()=>{
+			code=data.to,bool=false;
+		})():code=data.from;
+		if(code == this.chattingUser){
+			this.content = data.content
+		}
+      	this.getUser(code,bool)
     },
     message:function(data){
-    	console.log(data);
-		let code=""
-		data.from == this.phone? code=data.to:code=data.from
-		this.getUser(code)
+		let code="",bool=true;
+		data.from == this.phone? (()=>{
+			code=data.to,bool=false;
+		})():code=data.from;
+		this.getUser(code,bool)
     }
   },
   methods: {
@@ -76,15 +86,31 @@ export default{
     		this.isAppendshow = true
     	}
     },
-    getUser:function(id){
+	showMessage(item){
+		if(this.isMessageshow){
+			this.isMessageshow = false
+		}else{
+			this.chattingUser = item.phonenumber;
+			this.isMessageshow = true;
+			delete this.exist[item.phonenumber];
+			this.$set(this.exist,item.phonenumber,0);
+		}
+	},
+    getUser:function(id,bool){
     	  	if(id in this.exist){
-    	  		let num = this.exist[id]
-    	  		delete(this.exist[id])
-	  			this.$set(this.exist,id,num+1);
-	  			console.log(this.exist[id])
+    	  		if(bool){
+	    	  		let num = this.exist[id];
+	    	  		delete(this.exist[id]);
+		  			this.$set(this.exist,id,num+1);
+    	  		}
 				return false
 			}else{
-				this.exist[id] = 1;
+				if(bool){
+					this.exist[id] = 1;
+				}else{
+					this.exist[id] = 0;
+				}
+
 			}
     	    axios.get("/users/user",{
     			params:{
@@ -116,9 +142,11 @@ export default{
     		console.log(data)
 
     		data.data.data.forEach((item)=>{
-    			let code=""
-    			item.from == this.phone? code=item.to:code=item.from
-	    		this.getUser(code)
+    			let code="",bool=true;
+    			item.from == this.phone? (()=>{
+    				code=item.to,bool=false;
+    			})():code=item.from
+	    		this.getUser(code,bool)
     		})
     	})
     	axios.get("/message/chatted",{
@@ -127,13 +155,25 @@ export default{
     		}
     	}).then((data)=>{
     		data.data.data.forEach((item)=>{
-    			let code=""
-    			item.from == this.phone? code=item.to:code=item.from
-    			if(code in this.exist){
+    			let code="",bool=true;
+    			item.from == this.phone? (()=>{
+    				code=item.to,bool=false;
+    			})():code=item.from
+    	  		if(code in this.exist){
+    	  			if(bool){
+	    	  			let num = this.exist[code];
+	    	  			delete(this.exist[code]);
+		  				this.$set(this.exist,code,num+1);
+    	  			}
 					return false
 				}else{
-					this.exist[code] = 0;
+					if(bool){
+						this.exist[code] = 1;
+					}else{
+						this.exist[code] = 0;
 				}
+
+			}
 	    		axios.get("/users/user",{
 	    			params:{
 	    				phone:code,

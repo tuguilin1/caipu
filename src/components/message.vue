@@ -12,22 +12,17 @@
 			<div class="send" @click="send">发送</div>
 		</div>
 		<div class="content" ref="content">
-			<div class="from">
-				<div class="from-img">
-					<img :src="fromImg">
-				</div>
-				<div class="from-content">
-					哈哈哈哈或或或或或或或或或或或或或或
-				</div>
-			</div>
-			<div class="to">
-				<div class="to-img">
-					<img :src="toImg">
-				</div>
-				<div class="to-content">
-					哈哈哈哈或或或或或或或或或或或或或或
+			<div v-for="(key,index) in list" :key="index">
+				<div :class="key.class" >
+					<div :class="key.class == 'from'? 'from-img':'to-img'">
+						<img :src="key.img">
+					</div>
+					<div :class="key.class == 'from'? 'from-content':'to-content'">
+						{{key.text}}
+					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </transition>
@@ -41,13 +36,18 @@ import axios from "axios"
 			return{
 				toImg:"",
 				fromImg:"",
-				num:0
+				num:0,
+				list:[]
 			}
 		},
 		props:{
 			toUser:{
 				type:String,
 				default:""
+			},
+			content:{
+				type:Object,
+				default:{}
 			}
 		},
 		computed:{
@@ -93,16 +93,24 @@ import axios from "axios"
 				if(!value){
 					return false;
 				}else{
+					this.list.push({img:this.toImg,class:"from",num:this.num++,text:value})
 					this.$socket.emit("chat1",{from:this.phone,to:this.toUser,content:{
-						num:this.num++,
+						num:this.num,
 						text:value
 					},time:_date})
 					this.$refs._input.value=""
+					console.log(this.$refs.content.style.top)
 				}
 			}
 		},
 		mounted(){
 			this.getUsers()
+		},
+		watch:{
+			content:function(newcontent){
+				console.log(newcontent)
+				this.list.push({img:this.fromImg,class:"to",num:this.num,text:newcontent.text})
+			}
 		}
 	}
 </script>
@@ -129,6 +137,8 @@ import axios from "axios"
 	.el-icon-arrow-left{
 		position: absolute;
 		left: 1rem;
+		margin-top: 1rem;
+		font-size: 1.5rem;
 	}
 	.message-bottom{
 		width: 100%;
@@ -169,17 +179,20 @@ import axios from "axios"
 		opacity: 0;
 	}
 	.content{
+		position: absolute;
 		box-sizing: border-box;
 		padding-left: 1rem;
 		padding-right: 1rem;
-		margin-top: 4.5rem;
+		top: 4.5rem;
+		bottom: 4rem;
+		width: 20rem;
+		overflow: scroll;
 	}
-	.from{
-		margin-bottom: 1rem;
+	.to{
+		margin-top: 1rem;
 		display: flex;
 		justify-content: flex-start;
 		height: auto;
-		width: 16rem;
 	}
 	.from-img,.to-img{
 		width: 3rem;
@@ -189,22 +202,19 @@ import axios from "axios"
 		width: 100%;
 		height: 100%;
 	}
-	.from-content{
-		flex: 1;
+	.to-content{
 		margin-left: 0.5rem;
 		padding: 0.5rem;
 		background: #AAA;
 		border-radius: 0.5rem;
 	}
-	.to{
+	.from{
 		margin-top: 1rem;
 		display: flex;
-		justify-content: flex-end;
 		height: auto;
 		flex-direction: row-reverse;
 	}
-	.to-content{
-		flex: 1;
+	.from-content{
 		margin-right: 0.5rem;
 		margin-left: 2rem;
 		padding:0.5rem;
