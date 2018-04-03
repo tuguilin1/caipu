@@ -22,7 +22,7 @@
 		    </div>
 		</div>
 		<Message v-if="isMessageshow" @stopMessage="showMessage" :toUser="chattingUser" :content="content"></Message>
-		<new-friend v-if="isSearchshow" @stopSearch="showSearch"></new-friend>
+		<new-friend v-if="isSearchshow" @stopSearch="showSearch" :content="content"></new-friend>
 	</div>
 </template>
 

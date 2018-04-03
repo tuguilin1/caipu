@@ -187,10 +187,11 @@ import axios from "axios"
 	margin-top: 2rem;
 }
 	.search-enter-active,.search-leave-active{
-		transition:top .5s;
+		transition:all .5s;
 	}
 	.search-enter{
-		top:100%;
+		top:40%;
+		opacity: 0;
 	}
 	.search-enter-to{
 		top: 0;
@@ -199,6 +200,7 @@ import axios from "axios"
 		top: 0;
 	}
 	.search-leave-to{
-		top: 100%;
+		top: 70%;
+		opacity: 0;
 	}
 </style>

@@ -41,6 +41,7 @@
 <script type="text/javascript">
 import { getCook } from "@/assets/js/api"
 import { mapGetters } from "vuex"
+import { Toast } from 'mint-ui';
 import axios from "axios"
 	export default{
 		props:{
@@ -75,24 +76,15 @@ import axios from "axios"
 			back(){
 				this.$emit("back")
 			},
-			open2(msg) {
-		        this.$message({
-		          message: msg,
-		          type: 'success',
-		          duration:1000,
-		        });
-		    },
-
-		    open3(msg) {
-		        this.$message({
-		          message: msg,
-		          type: 'warning',
-		          duration:1000,
-		        });
-		    },
+			show(msg){
+			    let instance = Toast(msg);
+				setTimeout(() => {
+				  instance.close();
+				}, 1000);
+			},
 			collect(){
 				if(!this.isLogined){
-					this.open3("请先登录");
+					this.show("请先登录")
 					return false
 				}
 				let phone = this.phone
@@ -102,12 +94,12 @@ import axios from "axios"
 					params:data
 				}).then((data)=>{
 					if(data.data.status){
-						this.open2(data.data.msg);
+						this.show(data.data.msg)
 						this.$refs.btn.setAttribute("disabled",true);
 						this.$refs.btn.style.background="#909399";
 						this.iscollected="已收藏"
 					}else{
-						this.open3(data.data.msg)
+						this.show(data.data.msg)
 					}
 				})
 			},
@@ -222,11 +214,7 @@ import axios from "axios"
 		bottom: 20rem;
 		left: 8rem;
 		right: 8rem;
-		transform: rotate(400deg);
-		-ms-transform:rotate(400deg); 	/* IE 9 */
-		-moz-transform:rotate(400deg); 	/* Firefox */
-		-webkit-transform:rotate(400deg); /* Safari 和 Chrome */
-		-o-transform:rotate(400deg); 	/* Opera */
+		opacity: 0;
 	}
 	.appear-leave{
 		opacity:1;

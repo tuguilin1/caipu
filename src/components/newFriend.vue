@@ -17,7 +17,7 @@
 	    		</div>
 	    	</div>
 	    </div>
-	    <Message v-if="isMessageshow" @stopMessage="sendMessage" :toUser="toUser" :message="{}"></Message>
+	    <Message v-if="isMessageshow" @stopMessage="sendMessage" :toUser="toUser" :message="content"></Message>
 	</div>
 	</transition>
 </template>
@@ -34,6 +34,12 @@ import Message from "@/components/message"
 				users:'',
 				isMessageshow:false,
 				toUser:""
+			}
+		},
+		props:{
+			content:{
+				type:Object,
+				default:{}
 			}
 		},
 		methods:{

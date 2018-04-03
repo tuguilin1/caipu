@@ -1,11 +1,11 @@
 <template>
 	<transition name="message">
 	<div class="message">
-		<div class="message-head">
+		<div class="message-head" ref="head">
 			<i class="el-icon-arrow-left" @click="back"></i>
 			{{toUser}}
 		</div>
-		<div class="message-bottom">
+		<div class="message-bottom" ref="footer">
 			<div class="input">
 				<input type="search" name="" ref="_input">
 			</div>
@@ -82,7 +82,6 @@ import axios from "axios"
 							this.fromImg = data[0].data.list[0].avatar;
 							this.toImg  = data[1].data.list[0].avatar
 						}
-						console.log(this.fromImg,this.toImg)
 					}
 				})
 			},
@@ -99,17 +98,30 @@ import axios from "axios"
 						text:value
 					},time:_date})
 					this.$refs._input.value=""
-					console.log(this.$refs.content.style.top)
+
 				}
 			}
 		},
 		mounted(){
-			this.getUsers()
+			this.getUsers();
+			this.$refs.content.style.height = this.$refs.footer.offsetTop - this.$refs.head.offsetHeight + "px"
 		},
 		watch:{
 			content:function(newcontent){
-				console.log(newcontent)
 				this.list.push({img:this.fromImg,class:"to",num:this.num,text:newcontent.text})
+			},
+			list:function(){
+				this.$nextTick(()=>{
+					let chatTop = this.$refs.content.lastElementChild.offsetTop||0;
+					let chatHeight = this.$refs.content.lastElementChild.offsetHeight;
+					let headHeight= this.$refs.head.offsetHeight;
+					let footerTop = this.$refs.footer.offsetTop;
+					if(footerTop-headHeight < chatTop+chatHeight){
+						let height = chatTop+chatHeight-footerTop+headHeight;
+						this.$refs.content.scrollTop = height;
+					}
+				})
+
 			}
 		}
 	}
@@ -147,6 +159,7 @@ import axios from "axios"
 		background: #EEE;
 		height: 3rem;
 		display: flex;
+		z-index: 30;
 	}
 	.message-bottom .input{
 		width: 15rem;
@@ -179,13 +192,13 @@ import axios from "axios"
 		opacity: 0;
 	}
 	.content{
-		position: absolute;
+		position:fixed;
 		box-sizing: border-box;
 		padding-left: 1rem;
 		padding-right: 1rem;
 		top: 4.5rem;
-		bottom: 4rem;
 		width: 20rem;
+		bottom: 5rem;
 		overflow: scroll;
 	}
 	.to{
@@ -207,6 +220,8 @@ import axios from "axios"
 		padding: 0.5rem;
 		background: #AAA;
 		border-radius: 0.5rem;
+		max-width: 6rem;
+		word-wrap: break-word;
 	}
 	.from{
 		margin-top: 1rem;
@@ -220,5 +235,7 @@ import axios from "axios"
 		padding:0.5rem;
 		background: #AAA;
 		border-radius: 0.5rem;
+		max-width: 6rem;
+		word-wrap: break-word;
 	}
 </style>

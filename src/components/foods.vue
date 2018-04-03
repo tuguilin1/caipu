@@ -32,9 +32,9 @@ import { getFood } from "@/assets/js/api.js"
 				getFood(data).then((data)=>{
 					if(data.data.msg === "查询成功"){
 						this.foodList = data.data.result.result.list;
-						setTimeout(()=>{
+						this.$nextTick(()=>{
 							this.$refs.food.style.display = "block"
-						},100)
+						})
 					}
 					else{
 						this.foodList = [{"name":"没有信息"}]
