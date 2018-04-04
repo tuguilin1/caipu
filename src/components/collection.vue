@@ -1,9 +1,6 @@
 <template>
 	<div class="collection">
-		<div class="dish-header">
-			<i class="el-icon-arrow-left" @click="back"></i>
-			我的收藏
-		</div>
+		<Header :title="title" @back="back"></Header>
 		<div class="dish-container">
 			<div class="dish-container-list" v-for="(item,index) in foodData" :key="index" @click="show(item.id)">
 				<div class="dish-container-left">
@@ -27,15 +24,18 @@
 import { getCollection } from "@/assets/js/api.js"
 import { mapGetters } from "vuex"
 import Cook from "@/components/cook"
+import Header from "@/components/header"
 	export default{
 		components:{
-			Cook
+			Cook,
+			Header
 		},
 		data(){
 			return{
 				foodData:"",
 				isCookshow:false,
 				cookId:'',
+				title:"我的收藏"
 			}
 		},
 		computed:{
@@ -75,25 +75,9 @@ import Cook from "@/components/cook"
 </script>
 
 <style type="text/css">
-	.dish-header{
-		width: 100%;
-		position: fixed;
-		top:0;
-		text-align: center;
-		height: 3rem;
-		font-size: 1rem;
-		line-height: 3rem;
-		background: #EEE;
-		border-bottom: 1px solid #DDD
-	}
-	.dish-header i{
-		position: absolute;
-		left: 1rem;
-		font-size: 2rem;
-		margin-top: 0.5rem;
-	}
+
 	.dish-container{
-		margin-top: 4rem;
+		margin-top: 5rem;
 	}
 	.dish-container-list{
 		display: flex;

@@ -1,15 +1,12 @@
 <template>
 	<div class="login">
-		<header>
-			<i class="el-icon-arrow-left" @click="back"></i>
-			登录
-		</header>
+		<Header :title="title" @back="back"></Header>
 		<el-form :model="ruleForm2" status-icon  ref="ruleForm2" :rules="rules2">
-		  <el-form-item label="手机号" prop="phone">
-		    <el-input type="text" v-model="ruleForm2.phone" auto-complete="off"></el-input>
+		  <el-form-item prop="phone">
+		    <el-input type="text" v-model="ruleForm2.phone" auto-complete="off" placeholder="手机号"></el-input>
 		  </el-form-item>
-		  <el-form-item label="密码"  prop="pass">
-		    <el-input v-model="ruleForm2.pass" type="password"  auto-complete="off"></el-input>
+		  <el-form-item  prop="pass">
+		    <el-input v-model="ruleForm2.pass" type="password"  auto-complete="off" placeholder="密码"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
@@ -23,7 +20,11 @@
 import axios from "axios"
 import { Toast } from 'mint-ui';
 import { mapMutations } from 'vuex'
+import Header from "@/components/header"
 	export default{
+		components:{
+			Header
+		},
 		data() {
 	      var validatePass = (rule, value, callback) => {
 	        if (value === '') {
@@ -55,7 +56,8 @@ import { mapMutations } from 'vuex'
 		          phone:[
 		          	{ validator:validatePhone,trigger:"blur" }
 		          ]
-		        }
+		        },
+		        title:"登录"
 		    }
 		},
 		methods:{
@@ -67,7 +69,6 @@ import { mapMutations } from 'vuex'
 			          if (valid) {
 			            const data=this.ruleForm2;
 			            axios.post("/users/login",data).then((data)=>{
-			            	console.log(data);
 			            	if(data.data.status){
 			            		let instance = Toast('登陆成功');
 								setTimeout(() => {
@@ -90,7 +91,6 @@ import { mapMutations } from 'vuex'
 			     			}
 			            })	
 			        } else {
-			            console.log('error submit!!');
 			            return false;
 			          }
 			    });
@@ -115,25 +115,11 @@ import { mapMutations } from 'vuex'
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background-color:  #DDD;
-	}
-	.login header{
-		width: 100%;
-		height: 3rem;
-		font-size: 1rem;
-		line-height: 3rem;
-		text-align: center;
-		background: #FFF;
-	}
-	.login .el-icon-arrow-left{
-		position: absolute;
-		font-size: 2rem;
-		left: 1rem;
-		line-height: 3rem;
 	}
 	form{
 		width: 18rem;
 		margin-left: 1rem;
+		margin-top: 6rem;
 	}
 	.forget{
 		width: 100%;
@@ -150,5 +136,12 @@ import { mapMutations } from 'vuex'
 	}
 	form .el-button+.el-button{
 		margin-left: 0;
+	}
+	.el-input__inner{
+		background: none;
+		outline: none;
+		border:none;
+		border-bottom: 1px solid #DDD;
+		border-radius: 0;
 	}
 </style>

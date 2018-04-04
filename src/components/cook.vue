@@ -1,10 +1,7 @@
 <template>
 	<transition name="appear">
 	<div class="cook">
-		<div class="cook-header">
-			<i class="el-icon-arrow-left" @click="back"></i>
-			{{cookFood.name}}
-		</div>
+		<Header :title="cookFood.name" @back="back"></Header>
 		<div class="cook-content" v-html="cookFood.content">
 		</div>
 		<div class="cook-material">
@@ -41,7 +38,8 @@
 <script type="text/javascript">
 import { getCook } from "@/assets/js/api"
 import { mapGetters } from "vuex"
-import { Toast } from 'mint-ui';
+import { Toast } from 'mint-ui'
+import Header from "@/components/header"
 import axios from "axios"
 	export default{
 		props:{
@@ -55,6 +53,9 @@ import axios from "axios"
 				iscollected:"收藏"
 			}
 		},
+		components:{
+			Header
+		},	
 		computed:{
 			...mapGetters([
 				"isLogined",
@@ -133,7 +134,7 @@ import axios from "axios"
 		bottom: 0;
 		right: 0;
 		z-index: 20;
-		background: #EEE;
+		background: #FFF;
 		overflow: scroll;
 	}
 		.cook-header{

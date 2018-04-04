@@ -1,10 +1,7 @@
 <template>
 	<transition name="message">
 	<div class="message">
-		<div class="message-head" ref="head">
-			<i class="el-icon-arrow-left" @click="back"></i>
-			{{toUser}}
-		</div>
+		<Header :title="toUser" @back="back"></Header>
 		<div class="message-bottom" ref="footer">
 			<div class="input">
 				<input type="search" name="" ref="_input">
@@ -31,6 +28,7 @@
 <script type="text/javascript">
 import { mapGetters } from "vuex"
 import axios from "axios"
+import Header from "@/components/header"
 	export default{
 		data(){
 			return{
@@ -54,6 +52,9 @@ import axios from "axios"
 			...mapGetters([
 				"phone"
 				])
+		},
+		components:{
+			Header
 		},
 		methods:{
 			back(){
@@ -145,12 +146,6 @@ import axios from "axios"
 		position: fixed;
 		top:0;
 		background: #EEE;
-	}
-	.el-icon-arrow-left{
-		position: absolute;
-		left: 1rem;
-		margin-top: 1rem;
-		font-size: 1.5rem;
 	}
 	.message-bottom{
 		width: 100%;

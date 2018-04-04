@@ -1,9 +1,7 @@
 <template>
 	<div class="person">
-		<div class="person-header">
-			<i class="el-icon-arrow-left" @click="back"></i>
-			个人中心
-		</div>
+		<Header :title="title" @back="back">
+		</Header>
 		<div class="person-content">
 			<div class="person-img" @click="changeAvater">
 				<img src="/static/images/zjl.jpg" ref="img">
@@ -33,12 +31,13 @@
 				<i class="el-icon-d-arrow-right"></i>
 			</router-link>
 		</div>
-		<el-button type="info" plain @click="quit">退出登录</el-button>
+		<el-button type="primary" plain @click="quit">退出登录</el-button>
 	</div>
 </template>
 
 <script type="text/javascript">
 import axios from "axios"
+import Header from "@/components/header"
 import { mapMutations,mapGetters } from "vuex"
 	export default{
 		computed:{
@@ -47,48 +46,56 @@ import { mapMutations,mapGetters } from "vuex"
 				"isLogined"
 				])
 		},
-			methods:{
-				back(){
-					history.go(-1)
-				},
-				quit(){
-					this.setLogin(false);
-					this.$router.push("/")
-				},
-				changeAvater(){
-					this.$refs.input.click();
-					this.$refs.input.onchange = ()=>{
-						let file = this.$refs.input.files[0];
-					    let formData = new FormData();
-					    formData.append("avatar", file);
-					    formData.append("phone",this.phone)
-					    axios.post("/users/avatar",formData).then((data)=>{
-					    	if(data.data.status){
-					    		this.$refs.img.src=data.data.filePath
-					    	}
-					    })
-					}
-				},
-				...mapMutations({
-					setLogin:"SET_IS_LOGINED"
-				})
+		data(){
+			return{
+				title:"个人中心"
+			}
+		},
+		components:{
+			Header
+		},
+		methods:{
+			back(){
+				history.go(-1)
 			},
-			created(){
-				if(!this.isLogined){
-					this.$router.push("/login")
+			quit(){
+				this.setLogin(false);
+				this.$router.push("/")
+			},
+			changeAvater(){
+				this.$refs.input.click();
+				this.$refs.input.onchange = ()=>{
+					let file = this.$refs.input.files[0];
+				    let formData = new FormData();
+				    formData.append("avatar", file);
+				    formData.append("phone",this.phone)
+				    axios.post("/users/avatar",formData).then((data)=>{
+				    	if(data.data.status){
+				    		this.$refs.img.src=data.data.filePath
+				    	}
+				    })
 				}
 			},
-			activated(){
-				axios.get("/users/userHead",{
-					params:{
-						phone:this.phone
-					}
-				}).then((data)=>{
-					if(data.data.status){
-						this.$refs.img.src=data.data.pic
-					}
-				})
+			...mapMutations({
+				setLogin:"SET_IS_LOGINED"
+			})
+		},
+		created(){
+			if(!this.isLogined){
+				this.$router.push("/login")
 			}
+		},
+		activated(){
+			axios.get("/users/userHead",{
+				params:{
+					phone:this.phone
+				}
+			}).then((data)=>{
+				if(data.data.status){
+					this.$refs.img.src=data.data.pic
+				}
+			})
+		}
 	}
 </script>
 
@@ -99,7 +106,6 @@ import { mapMutations,mapGetters } from "vuex"
 		right: 0;
 		top:0;
 		bottom: 0;
-		background:#DDD;
 	}
 	.person-header{
 		width: 100%;

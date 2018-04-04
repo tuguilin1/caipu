@@ -1,15 +1,8 @@
 <template>
 	<div class="news">
-		<div class="news-header">
-			<i class="el-icon-arrow-left" @click="back"></i>
-			消息
-			<i class="el-icon-plus" @click="showAppend"></i>
-			<div class="append" v-show="isAppendshow">
-				<div @click="showSearch">添加好友</div>
-				<div>添加群</div>
-				<div>新建群</div>
-			</div>
-		</div>
+		<Header :title="title" @back="back">
+			<i slot="right-icon" class='el-icon-plus' @click="showSearch"></i>
+		</Header>
 		<div class="centent">
 			<div class="news-content" v-for="(item,index) in list" :key="index" @click="showMessage(item)">
 		    	<div class="user-avatar"><img :src="item.avatar" alt=""></div>
@@ -32,10 +25,12 @@ import Message from "@/components/message"
 import { mapGetters } from "vuex"
 import axios from "axios"
 import { Badge } from 'mint-ui'
+import Header from "@/components/header"
 export default{
   components:{
 	  newFriend,
-	  Message
+	  Message,
+	  Header
   },
   data(){
       return{
@@ -46,7 +41,8 @@ export default{
           list:[],
           exist:{},
           chattingUser:"",
-          content:{}
+          content:{},
+          title:"我的消息"
       }
   },
   computed:{
@@ -78,14 +74,6 @@ export default{
     }
   },
   methods: {
-  	showAppend:function(){
-    	if(this.isAppendshow){
-    		this.isAppendshow = false
-    	}
-    	else{
-    		this.isAppendshow = true
-    	}
-    },
 	showMessage(item){
 		if(this.isMessageshow){
 			this.isMessageshow = false
@@ -121,7 +109,6 @@ export default{
     			if(_data.data.status==1){
             		this.list.unshift(_data.data.list[0])			
       			}
-      			console.log(this.list)
     		})
     },
     showSearch:function(){
@@ -139,7 +126,6 @@ export default{
     			phone:this.phone
     		}
     	}).then((data)=>{
-    		console.log(data)
 
     		data.data.data.forEach((item)=>{
     			let code="",bool=true;
@@ -199,39 +185,14 @@ export default{
 </script>
 
 <style type="text/css">
-	.news-header{
-		width: 100%;
-		position: fixed;
-		top:0;
-		text-align: center;
-		height: 3rem;
-		font-size: 1rem;
-		line-height: 3rem;
-		background: #EEE;
-		border-bottom: 1px solid #DDD
+	.centent{
+		margin-top: 5rem;
 	}
-	.news-header .el-icon-plus{
+	.el-icon-plus{
 		position: absolute;
 		right: 1rem;
-		font-size: 1.5rem;
-		margin-top: 0.75rem;
-	}
-	.news-header .el-icon-arrow-left{
-		position: absolute;
-		left: 1rem;
-		font-size: 1.5rem;
-		margin-top: 0.75rem;
-	}
-	.append{
-		width: 5rem;
-		height: 9rem;
-		background-color: #DDD;
-		position: relative;
-		left: 15rem;
-		top:-0.5rem;
-	}
-	.centent{
-		margin-top: 4rem;
+		top:1rem;
+		font-size: 2rem;
 	}
 	.news-content{
 		width: 100%;

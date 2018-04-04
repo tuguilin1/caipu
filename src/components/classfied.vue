@@ -1,11 +1,7 @@
 <template>
 	<transition name="food">
 	<div class="classfied">
-		<div class="header">
-			<i class="el-icon-arrow-left" @click="back"></i>
-			菜谱分类
-			<i class="el-icon-search"></i>
-		</div>
+		<Header :title="title" @back="back"></Header>
 		<div class="nav">
 			<el-tabs tab-position="left">
 		    	<el-tab-pane v-for="(item,key) in menu" :label="item" :key="item">
@@ -21,6 +17,7 @@
 
 <script type="text/javascript">
 import Food from "./foods.vue"
+import Header from "@/components/header"
 	export default{
 		props:{
 			cfShow:{
@@ -28,7 +25,8 @@ import Food from "./foods.vue"
 			}
 		},
 		components:{
-			Food
+			Food,
+			Header
 		},
 		data(){
 			return{
@@ -46,6 +44,7 @@ import Food from "./foods.vue"
 					"85":"健脑益智",
 					"309":"创意菜",
 				},
+				title:"菜谱分类"
 			}
 		},
 		methods:{
@@ -64,23 +63,10 @@ import Food from "./foods.vue"
 		bottom: 0;
 		right: 0;
 		z-index: 10;
-		background: #EEE;
-	}
-	.header{
-		width: 100%;
-		height: 3rem;
-		font-size: 1rem;
-		line-height: 3rem;
-		text-align: center !important;
 		background: #FFF;
-		margin-left:0;
-		margin-bottom: 1rem;
-		position: fixed;
-		top:0;
-		z-index: 20;
 	}
 	.nav{
-		margin-top: 3rem;
+		margin-top: 4rem;
 	}
 	.is_left{
 		width: 6rem;
@@ -99,18 +85,6 @@ import Food from "./foods.vue"
 		top:-0.5rem;
 	}
 	.food-enter-active,.food-leave-active{
-		transition:left 1s;
-	}
-	.food-enter{
-		left:100%;
-	}
-	.food-enter-to{
-		left: 0;
-	}
-	.food-leave{
-		left: 0;
-	}
-	.food-leave-to{
-		left: 100%;
+		transition:left .3s;
 	}
 </style>

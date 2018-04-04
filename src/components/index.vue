@@ -1,10 +1,10 @@
 <template>
 	<div class="index">
-	  <header>
+	  <div class="header">
         <i class="el-icon-menu" @click="classiFied"></i>
         <input  placeholder="请输入内容" @focus="searchShow" />
         <i class="iconfont icon-user" @click="jump"></i>
-      </header>
+      </div>
       <Banner></Banner>
       <nav>
         <router-link to="/dish/菠菜" tag="div">
@@ -24,6 +24,9 @@
           <span>全部</span>
         </router-link>
       </nav>
+      <footer>
+        <img src="../../static/images/douguo.png">
+      </footer>
       <class-fied v-show="cf_show" :cfShow="cf_show" @back="classiFied"></class-fied>
       <Search v-show="is_searchShow" @goBack="searchShow" :isSearchshow="is_searchShow"></Search>  
 	</div>
@@ -88,7 +91,7 @@ export default {
 .index{
   z-index: 0;
 }
-.index header{
+.header{
   width: 18rem;
   height: 4rem;
   line-height: 4rem;
@@ -104,7 +107,7 @@ export default {
 }
 
 
-.index i{
+.header i{
   font-size: 1.5rem;
   line-height: 4rem;
   
@@ -151,5 +154,10 @@ nav img{
   -webkit-border-radius: 1.25rem; /* Safari 和 Chrome */
   border-radius: 1.25rem;
 }
-
+footer{
+  width: 100%;
+}
+footer img{
+  width: 100%;
+}
 </style>

@@ -1,9 +1,6 @@
 <template>
 	<div class="all-food">
-		<div class="all-food-header">
-			<i class="el-icon-arrow-left" @click="back"></i>
-			全部分类
-		</div>
+		<Header :title="title" @back="back"></Header>
 		<div class="all-food-content" >
 			<el-collapse accordion>
 			  <el-collapse-item v-for="(item,index) in allFood" @click="search" :title="item.name"  :name="index" :key="index" >
@@ -19,12 +16,17 @@
 
 <script type="text/javascript">
 import {getAllfood} from "@/assets/js/api"
-import { Indicator } from 'mint-ui';
+import { Indicator } from 'mint-ui'
+import Header from "@/components/header"
 	export default{
 		data(){
 			return{
 				allFood:"",
+				title:"全部分类"
 			}
+		},
+		components:{
+			Header
 		},
 		methods:{
 			_getAllfood(){
@@ -54,25 +56,8 @@ import { Indicator } from 'mint-ui';
 </script>
 
 <style type="text/css">
-	.all-food-header{
-		width: 100%;
-		position: fixed;
-		top:0;
-		text-align: center;
-		height: 3rem;
-		font-size: 1rem;
-		line-height: 3rem;
-		background: #EEE;
-		border-bottom: 1px solid #DDD
-	}
-	.all-food-header i{
-		position: absolute;
-		left: 1rem;
-		font-size: 2rem;
-		margin-top: 0.5rem;
-	}
 	.all-food-content{
-		margin-top: 3rem;
+		margin-top: 4rem;
 		width: 20rem;
 		overflow: hidden;
 	}
@@ -81,9 +66,11 @@ import { Indicator } from 'mint-ui';
 		line-height: 4rem;
 		box-sizing:border-box; 
 		padding-left: 1rem;
+		font-size: 1.1rem;
 	}
 	.el-icon-arrow-right{
 		font-size: 1rem;
+		line-height: 4rem;
 	}
 	.all-food-content .el-tag{
 		margin-left: 0.5rem;
