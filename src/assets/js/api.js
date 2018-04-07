@@ -44,4 +44,13 @@ var getCollection = (data)=>{
 			return Promise.resolve(data)
 	})
 }
-export {getFood,getDish,getAllfood,getCook,getCollection }
+
+var getVideo= (data)=>{
+	const url = "/ajaxshowlist";
+	return axios.get(url,{
+			params:data
+		}).then((data)=>{
+			return Promise.resolve(data)
+	})
+}
+export {getFood,getDish,getAllfood,getCook,getCollection,getVideo}

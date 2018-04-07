@@ -8,6 +8,8 @@ import allFood from "@/components/all_food"
 import Person from "@/components/person"
 import Collection from "@/components/collection"
 import News from "@/components/news"
+import cookVideonav from "@/components/cookvideonav"
+import cookVideo from "@/components/cookvideo"
 Vue.use(Router)
 
 export default new Router({
@@ -43,6 +45,16 @@ export default new Router({
 	  {
 	  	path:"/news",
 	  	component:News
+	  },
+	  {
+	  	path:"/cookvideonav",
+	  	component:cookVideonav,
+	  	children:[
+	  		{
+	  			path:":type",
+	  			component:cookVideo
+	  		}
+	  	]
 	  }
   ]
 })

@@ -1,7 +1,7 @@
 <template>
 	<transition name="message">
 	<div class="message">
-		<Header :title="toUser" @back="back"></Header>
+		<Header :title="toUser" @back="back" ref="head"></Header>
 		<div class="message-bottom" ref="footer">
 			<div class="input">
 				<input type="search" name="" ref="_input">

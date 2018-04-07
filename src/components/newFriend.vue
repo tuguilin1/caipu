@@ -1,11 +1,11 @@
 <template>
 	<transition name="friend">	
 	<div class="new-friend">
-		<header>
+		<div class="head">
 	        <i class="el-icon-arrow-down" @click="stopSearch"></i>
 	        <input ref="input"  placeholder="输入对方手机号或昵称"/>
 	        <i class="el-icon-search" @click="inputSearch"></i>
-	    </header>
+	    </div>
 	    <div class="user" v-for = "(item,index) in users" :key="index">
 	    	<div class="user-avatar"><img :src="item.avatar" alt=""></div>
 	    	<div class="user-information">
@@ -94,7 +94,7 @@ import Message from "@/components/message"
 		background: #EEE;
 		z-index: 10
 	}
-	.new-friend header{
+	.head{
 	  width: 18rem;
 	  height: 4rem;
 	  line-height: 4rem;
@@ -109,12 +109,12 @@ import Message from "@/components/message"
 	  justify-content: space-between;
 	  border-bottom: 1px solid #DDD
 	}
-	.new-friend i{
+	.head i{
 	  font-size: 1.5rem;
 	  line-height: 4rem;
 	  
 	}
-	.new-friend header input{
+	.head input{
 	  margin-top: 1rem;
 	  display: block;
 	  width: 10rem;

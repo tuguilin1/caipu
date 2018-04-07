@@ -26,6 +26,10 @@ module.exports = {
         "/message":{
             target:"http://localhost:3000",
             changeOrigin:true
+        },
+        "/ajaxshowlist":{
+            target:"https://m.douguo.com/video/ajaxshowlist",
+            changeOrigin:true
         }
     },
 
