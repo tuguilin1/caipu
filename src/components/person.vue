@@ -14,18 +14,10 @@
 			<input type="file" name="avater" ref="input">
 		</div>
 		<div class="person-information">
-			<div class="my-data">
-				<span>个人资料</span>
-				<i class="el-icon-edit"></i>
-			</div>
 			<router-link tag="div" to="/collection" class="my-data">
 				<span>我的收藏</span>
 				<i class="el-icon-d-arrow-right"></i>
 			</router-link>
-			<div class="my-data">
-				<span>我的发帖</span>
-				<i class="el-icon-d-arrow-right"></i>
-			</div>
 			<router-link to="/news" tag="div" class="my-data">
 				<span>我的消息</span>
 				<i class="el-icon-d-arrow-right"></i>
@@ -38,6 +30,7 @@
 <script type="text/javascript">
 import axios from "axios"
 import Header from "@/components/header"
+import { MessageBox } from 'mint-ui'
 import { mapMutations,mapGetters } from "vuex"
 	export default{
 		computed:{
@@ -59,8 +52,12 @@ import { mapMutations,mapGetters } from "vuex"
 				history.go(-1)
 			},
 			quit(){
-				this.setLogin(false);
-				this.$router.push("/")
+				MessageBox.confirm('确定执行此操作?').then(action => {
+				  	this.setLogin(false);
+					this.$router.push("/")
+				},reject=>{
+				});
+
 			},
 			changeAvater(){
 				this.$refs.input.click();

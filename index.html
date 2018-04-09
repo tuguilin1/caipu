@@ -7,7 +7,18 @@
      <script type="text/javascript">
      	console.log(document.documentElement.clientWidth )
         document.documentElement.style.fontSize = document.documentElement.clientWidth / 640*32 + 'px';
+        if(document.documentElement.clientWidth > 640){
+          document.documentElement.style.fontSize = 32+"px";
+        }
     </script>
+    <style type="text/css">
+      @media screen and (min-width: 640px){
+        #app{
+          width: 640px;
+          margin:0 auto;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>

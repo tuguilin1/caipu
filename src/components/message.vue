@@ -72,7 +72,6 @@ import Header from "@/components/header"
 						name:this.phone
 					}
 				})]).then((data)=>{
-					console.log(data)
 					if(data[0].data.status===0||data[1].data.status===0){
 						return false;
 					}else{

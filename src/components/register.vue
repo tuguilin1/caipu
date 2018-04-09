@@ -98,7 +98,6 @@ import Header from "@/components/header"
 				          if (valid) {
 				            const data=this.ruleForm2;
 				            axios.post("/users/register",data).then((data)=>{
-				            	console.log(data)
 				            	if(data.data.status){
 				            		let instance = Toast('注册成功');
 									setTimeout(() => {

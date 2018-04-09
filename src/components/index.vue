@@ -140,7 +140,7 @@ nav img{
   margin-left: 1rem;
 }
 footer{
-  width: 100%;
+  width: 20rem;
 }
 footer img{
   width: 100%;

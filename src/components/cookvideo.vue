@@ -18,6 +18,7 @@
 
 <script type="text/javascript">
 import {getVideo} from "@/assets/js/api.js"
+import { Toast } from 'mint-ui'
 	export default{
 		data(){
 			return{
@@ -38,17 +39,18 @@ import {getVideo} from "@/assets/js/api.js"
 				};
 				getVideo(data).then((data)=>{
 					this.videoList = data.data.data.lists;
-					console.log(this.videoList)
 				})
 			},
 			playVideo(item){
-				if(item.type === 2){
-					window.location.href=item.video_url;
-				}else if(item.type===1){
-					console.log(1)
-					window.location.href = `https://m.douguo.com/cookbook/${item.id}.html?isapp=-1&f=www`
-				}
-
+				let instance = Toast("即将跳到外网");
+				setTimeout(() => {
+				    instance.close();
+				    if(item.type === 2){
+					  window.location.href=item.video_url;
+			    	}else if(item.type===1){
+					  window.location.href = `https://m.douguo.com/cookbook/${item.id}.html?isapp=-1&f=www`
+				    }
+				}, 1000);
 			}
 		},
 		mounted(){
@@ -85,7 +87,6 @@ import {getVideo} from "@/assets/js/api.js"
 		color:#222;
 		width: 4rem;
 		height: 4rem;
-		background: blue;
 	}
 	.cook-video-name{
 		overflow: hidden;

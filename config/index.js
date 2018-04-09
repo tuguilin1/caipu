@@ -28,7 +28,7 @@ module.exports = {
             changeOrigin:true
         },
         "/ajaxshowlist":{
-            target:"https://m.douguo.com/video/ajaxshowlist",
+            target:"https://m.douguo.com/video",
             changeOrigin:true
         }
     },
