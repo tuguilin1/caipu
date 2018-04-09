@@ -21,7 +21,7 @@
 			</div>
 			<div class="cook-process-content">
 				<div class="cook-process-container" v-for="(item,index) in cookFood.process" :key="index">
-					<img :src="item.pic">
+					<img v-lazy="item.pic">
 					<span>{{index+1}}、</span>
 					<span v-html="item.pcontent"></span>
 				</div>

@@ -52,7 +52,7 @@ export default new Router({
 	  	children:[
 	  		{
 	  			path:":type",
-	  			component:cookVideo
+	  			component:cookVideo,
 	  		}
 	  	]
 	  }

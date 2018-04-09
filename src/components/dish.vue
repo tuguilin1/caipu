@@ -4,7 +4,7 @@
 		<div class="dish-container">
 			<div class="dish-container-list" v-for="(item,index) in foodData" :key="index" @click="show(item.id)">
 				<div class="dish-container-left">
-					<img :src="item.pic">
+					<img v-lazy="item.pic">
 				</div>
 				<div class="dish-container-right">
 					<div class="dish-name">

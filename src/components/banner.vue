@@ -1,7 +1,7 @@
 <template>
 	  <swiper :options="swiperOption" ref="mySwiper" class="Swiper">
 	    <!-- slides -->
-	    <swiper-slide class="swiper-slide"  v-for="(item,key) in banners" :key="key"><img :src="item.picUrl" @click="jump(item.foodName)"></swiper-slide>
+	    <swiper-slide class="swiper-slide"  v-for="(item,key) in banners" :key="key"><img v-lazy="item.picUrl" @click="jump(item.foodName)"></swiper-slide>
 <!-- 	    <swiper-slide class="swiper-slide"><img src="../assets/images/dajitui.jpg"></swiper-slide>
 	    <swiper-slide class="swiper-slide"><img src="../assets/images/gongbaojiding.jpg"></swiper-slide>
 	    <swiper-slide class="swiper-slide"><img src="../assets/images/lalamian.jpg"></swiper-slide>

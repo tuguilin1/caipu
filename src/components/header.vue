@@ -35,6 +35,7 @@
 		right: 0;
 		font-size: 1.3rem;
 		color:white;
+		z-index: 50;
 	}
 	header .el-icon-arrow-left{
 		position: absolute;

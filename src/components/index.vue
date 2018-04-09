@@ -7,21 +7,11 @@
       </div>
       <Banner></Banner>
       <nav>
-        <router-link to="/dish/菠菜" tag="div">
-          <img src="../../static/images/bocai.jpg" alt="">
-          <span>菠菜</span>
+        <router-link tag="div" to="/cookvideonav" class="img-nav">
+          <img src="https://i1.douguo.com//static/wap/img/m/h_video.png">
         </router-link>
-        <router-link to="/dish/木耳" tag="div">
-          <img src="../../static/images/muer.jpg" alt="">
-          <span>木耳</span>
-        </router-link>
-        <router-link to="/dish/苹果" tag="div">
-          <img src="../../static/images/pingguo.jpg" alt="">
-          <span>苹果</span>
-        </router-link>
-        <router-link  tag="div" to="/allfood">
-          <img src="../../static/images/quanbu.jpg" alt="">
-          <span>全部</span>
+        <router-link tag="div" to="/allfood" class="img-nav">
+          <img src="https://i1.douguo.com//static/wap/img/m/h_all.png">
         </router-link>
       </nav>
       <footer>
@@ -139,20 +129,15 @@ nav{
 }
 
 nav div{
-  width: 3rem;
-  height: 4rem;
-  margin-left: 1.6rem;
-  font-size: 0.6rem;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: 10rem;
 }
 
 nav img{
-  width: 100%;
-  height: 3rem;
+  width: 8rem;
   display: block;
-  -moz-border-radius:1.25rem; /* Firefox */
-  -webkit-border-radius: 1.25rem; /* Safari 和 Chrome */
-  border-radius: 1.25rem;
+  margin-left: 1rem;
 }
 footer{
   width: 100%;
